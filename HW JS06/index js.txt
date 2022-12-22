@@ -1,0 +1,36 @@
+// HOMEWORK
+// CREATE A DYNAMIC TABLE
+// Write a Javascript function that will dynamiclly create a table
+// User should input the number of Colums and Rows
+// In every table cell print which row and column it is (ex. Row-3 Column-1)
+
+btn = document.getElementById("submit")
+container = document.getElementById("container")
+let rows = document.getElementById("rows")
+let columns = document.getElementById("columns")
+
+function createTable(inputRows, inputColumns){
+
+    let theader = '<table>';
+    let tFooter = '</table>';
+    let tbody = "";   
+
+    for(let i = 1; i <= inputRows; i++){
+        tbody += `<tr>`
+        for(let j=1; j <= inputColumns; j++){
+            tbody += `<td>` + `</td>` 
+        }
+        tbody += `</tr>`
+    }
+  
+    container.innerHTML += `${theader}` + `${tbody}` + `${tFooter}`;
+
+}
+
+btn.onclick = function(){
+    createTable(rows, columns)
+}
+// btn.addEventListener("click", function(){
+//     // container.innerHTML = output;
+//     createTable(rows, columns)
+// })
