@@ -38,6 +38,7 @@ console.log("Your weight in chicken is: ", output)
 
 let weightChicken = document.getElementById("result");
 result.innerHTML = `You weight of ${userInput} kg in chickens is: ${output}`
+console.log(result)
 
 
 // HOMEWORK PART 1
