@@ -1,6 +1,7 @@
 console.log("connected")
 
-let numberBtn = document.querySelectorAll("numberBtn");
+let numberBtn = document.getElementsByClassName("numberBtn");
+// console.log(numberBtn);
 let output = document.getElementsByClassName("output");
 let allClearBtn = document.getElementById("allClearBtn");
 let deleteBtn = document.getElementById("deleteBtn");
@@ -38,23 +39,26 @@ let activeOperator = document.getElementById("actualOperator");
 // // let result = display(array, operation);
 // // console.log(result)
 
-let newArray = [];
-numbersBtn.addEventListener("click", function(event){
-    event.preventDefault();
-    let btn = event.target;
-    currentOperand.innerHTML += btn.value;
-    console.log(currentOperand.innerText)
+decimalBtn.addEventListener('click', function(event) {
 
+    let decimalClicked  = event.target;
+    if(currentOperand.innerHTML.includes(decimalClicked.value) == true){
+       return
+    }else
+    currentOperand.innerHTML += decimalClicked.value;
 })
 
-// decimalBtn.addEventListener('click', function(event) {
+function addEventList (arrayOfButtons){
+    for(let i = 0; i < arrayOfButtons.length; i++){
+        arrayOfButtons[i].addEventListener("click", function(event){
+            event.preventDefault();
+            let btn = event.target;
+            currentOperand.innerHTML += btn.value;
+        })
+    }
+}
 
-//     let decimalClicked  = event.target;
-//     currentOperand.innerHTML += decimalClicked.value;
-//     if(currentOperand.innerHTML.includes(decimalClicked) == true){
-//        return
-//     }
-// })
+addEventList(numberBtn);
 
 function clear(){
     currentOperand.innerHTML = "";
