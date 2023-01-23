@@ -130,7 +130,7 @@ function printCharacters(elementToPrint, character){
     <h3>Character name is: ${character.name} </h3>
     <h4>His birth year is: ${character.birth_year} </h4>
     <h4>His eyes are colored: ${character.eye_color} </h4>
-    <h4>His eyes are colored: ${getHomeWorld()} </h4>
+    <h4>His homeworld is: ${getHomeWorld()} </h4>
     `
 }
 
