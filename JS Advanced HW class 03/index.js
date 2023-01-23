@@ -76,7 +76,63 @@ function printPlanets(elementToPrintIn, planetsArray){
 }
 
 
+// BONUS: Exercise 3
+// Find out in the documentation how can you request for "specific character resource"
+// Using that url, make API request to get the data
+// After you get the data, create a function that is going to print it in the HTML the properties: "birth_year, eye_color, name, homeworld"
+// IMPORTANT: the property homeworld, should be informations of the homeworld not the url ;)
+// HINT: You would have to do, a api request with the homeworld property value to retrieve it's infomartion.
 
+
+let characterBtn = document.getElementById("characterBtn");
+let printChar = document.getElementById("printCharacter");
+
+
+function getCharacter(){
+    $.ajax({
+        url: "https://swapi.dev/api/people/4/",
+        method: "GET",
+        success: function(response){
+            console.log(response);
+            printCharacters(printChar, response)
+        },
+        error(error){
+
+        },
+    })
+}
+
+function getHomeWorld(){
+    $.ajax({
+        url: "https://swapi.dev/api/planets/1/",
+        method: "GET",
+        success: function(response){
+            console.log(response.name)
+            return response.name;
+        },
+        error(error){
+
+        }
+    })
+}
+getHomeWorld()
+
+// getHomeWorld()
+// getCharacter();
+characterBtn.addEventListener("click", function(){
+    getCharacter()
+    // getHomeWorld()
+})
+
+function printCharacters(elementToPrint, character){
+    elementToPrint.innerHTML = "";
+    elementToPrint.innerHTML += `
+    <h3>Character name is: ${character.name} </h3>
+    <h4>His birth year is: ${character.birth_year} </h4>
+    <h4>His eyes are colored: ${character.eye_color} </h4>
+    <h4>His eyes are colored: ${getHomeWorld()} </h4>
+    `
+}
 
 
 
