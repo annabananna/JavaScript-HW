@@ -93,7 +93,7 @@ function getCharacter(){
         url: "https://swapi.dev/api/people/4/",
         method: "GET",
         success: function(response){
-            console.log(response);
+            console.log("resp people", response);
             printCharacters(printChar, response)
         },
         error(error){
@@ -101,6 +101,7 @@ function getCharacter(){
         },
     })
 }
+let homewordl = {};
 
 function getHomeWorld(){
     $.ajax({
@@ -108,7 +109,8 @@ function getHomeWorld(){
         method: "GET",
         success: function(response){
             console.log(response.name)
-            return response.name;
+            console.log("resp planets", response);
+            homewordl.name = response.name;
         },
         error(error){
 
@@ -130,7 +132,7 @@ function printCharacters(elementToPrint, character){
     <h3>Character name is: ${character.name} </h3>
     <h4>His birth year is: ${character.birth_year} </h4>
     <h4>His eyes are colored: ${character.eye_color} </h4>
-    <h4>His homeworld is: ${getHomeWorld()} </h4>
+    <h4>His homeworld is: ${homewordl.name} </h4>
     `
 }
 
