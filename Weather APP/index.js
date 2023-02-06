@@ -26,10 +26,13 @@
 
 let inputText = document.getElementById("inputText");
 let buttons = document.getElementsByTagName("button");
-let myBtn = buttons[0];
-console.log(myBtn);
+let searchBtn = document.getElementById("searchBtn");
 let myDiv = document.getElementById("myDiv");
 let tableToPrint = document.getElementById("tableToPrint");
+let homeBtn = document.getElementById("homeBtn");
+let hourlyBtn = document.getElementById("hourlyBtn");
+
+
 
 function weatherForecast(){
     let urlHelper = `https://api.openweathermap.org/data/2.5/forecast?q=${inputText.value}&units=metric&APPID=2095b65c75e8d13fe9e3b0e095b36936`;
@@ -41,11 +44,11 @@ function weatherForecast(){
             console.log("humidity", responce.list[0].main.humidity);
             console.log("current temp", currentTemp(responce.list));
         //    console.log("City Name is", cityName(responce));
-        weatherDataObject.cityName = responce.city.name;
-        weatherDataObject.feelsLike = responce.list[0].main.feels_like;
-        weatherDataObject.description = responce.list[0].weather[0].description;
-        weatherDataObject.icon = responce.list[0].weather[0].icon;
-        console.log(responce.city.name);
+            weatherDataObject.cityName = responce.city.name;
+            weatherDataObject.feelsLike = responce.list[0].main.feels_like;
+            weatherDataObject.description = responce.list[0].weather[0].description;
+            weatherDataObject.icon = responce.list[0].weather[0].icon;
+            console.log(responce.city.name);
             console.log("feels_like", responce.list[0].main.feels_like);
             console.log("clouds??");
             console.log("avg temp is", avgTemp(responce.list));
@@ -54,16 +57,9 @@ function weatherForecast(){
             console.log("avg humidity is", avgHumidity(responce.list));
             console.log("max humidity is", maxHumidity(responce.list));
             console.log("low humidity is", lowHumidity(responce.list));
-
             // console.log("icon" , responce.list[0].weather[0].icon);
-            // console.log("icon url is: ", getIconImage(responce.list));
-            // printIcon(myDiv, responce.list[0]);
-            getIconImage(responce.list)
-            getDesc(responce.list)
-            // printIcon(myDiv, responce.list[0])
-            printPageOne(myDiv)
+            printPageOne(myDiv);
             printTable(tableToPrint, responce);
-        
         },
         error: function(error){
             console.log(error)
@@ -71,8 +67,7 @@ function weatherForecast(){
     })
 }
 
-
-myBtn.addEventListener("click", function(){
+searchBtn.addEventListener("click", function(){
     weatherForecast()
 })
 
@@ -93,7 +88,7 @@ function avgTemp(response){
     let averageTemp = 0;
     for(let i = 0; i < response.length; i++){
         averageTemp += response[i].main.temp / response.length;
-        weatherDataObject.avgTemp = averageTemp;
+        weatherDataObject.avgTemp = averageTemp.toFixed(2);
     }return weatherDataObject.avgTemp;
 }
 
@@ -130,7 +125,7 @@ function avgHumidity(response){
     let averageHum = 0;
     for(let i = 0; i < response.length; i++){
         averageHum += response[i].main.humidity / response.length;
-        weatherDataObject.avgHum = averageHum;
+        weatherDataObject.avgHum = averageHum.toFixed(2);
     }return weatherDataObject.avgHum;
 }
 
@@ -161,80 +156,103 @@ function printPageOne(elementToPrintIn, response){
     <h1>Weather Forecast</h1>
     <br />
     <h3>City Name: ${weatherDataObject.cityName}</h3>
+    <br />
     <h3>Current temp: ${weatherDataObject.currentTemp} Feels Like: ${weatherDataObject.feelsLike} </h3>
+    <br />
     <h3>${weatherDataObject.description}: <img src = "http://openweathermap.org/img/w/${weatherDataObject.icon}.png"></h3> 
-
+    <br />
     <h4>Max temp: ${weatherDataObject.maxTemp}   Max humidity: ${weatherDataObject.maximumHum}</h4>
+    <br />
     <h4>Avg temp: ${weatherDataObject.avgTemp}   Avg humidity: ${weatherDataObject.avgHum}</h4>
+    <br />
     <h4>Low temp: ${weatherDataObject.minTemp}   Low humidity: ${weatherDataObject.minimumHum}</h4>
     <br />
+    <br />
+    <br />
     <h3>Warmest time of the period: ${weatherDataObject.warmestPeriod} </h3>
+    <br />
     <h3>Coldest time of the period: ${weatherDataObject.coldestPeriod} </h3>
+    <br />
     `
 }
 
 // PAGE 2
 
 
-function getIconImage(response){
-    let iconUrl = "";
-    for(let i = 0; i < response.length; i++){
-        iconUrl = `http://openweathermap.org/img/w/${response[i].weather[0].icon}.png`;
-        // console.log(iconUrl);
-    }return iconUrl;
-}
-
-// function printIcon(elementToPrintIn, urlIcon){
+// function printTable(elementToPrintIn, responces){
+//     let table = document.createElement("table");
 //     elementToPrintIn.innerHTML = "";
-//     for(let i = 0; i < urlIcon.length; i++){
-//         elementToPrintIn.innerHTML += `<li><img src =
-//         "${getIconImage(urlIcon[i])}"></li>`
-// }}
-
-// function printTable(elementToPrintIn, responce) {
-//     elementToPrintIn.innerText = "";
-//     let tbody = ""; 
-//     let columns = 6;
-//     let rows = 0;
-//     for (let i = 0; i < responce.length; i++) {
-//         elementToPrintIn.innerHTML += `
-//         <table border="1" cellspacing="10" cellpadding="8">
-//             <thead>
-//                 <tr>
-//                     <th>Icon </th>
-//                     <td>Description </td>
-//                     <td>Date </td>
-//                     <td>Temperature </td>
-//                     <td>Humidity </td>
-//                     <td>Wind speed </td>
-//                 </tr>
-//             </thead>
-//             ${tbody} 
-//         </table>
-//         `
+//     for(let i = 0; i < responces.list.length; i++){
+//         let tableRow = document.createElement("tr");
+//         let tableData = document.createElement("td");
+//         tableData.innerHTML = `${responces.list[i].weather[0].description}`
+//         console.log(responces.list[i]);
+//         tableRow.appendChild(tableData);
+//         table.appendChild(tableRow);
 //     }
-// } 
+//     elementToPrintIn.appendChild(table);
+// }
 
-// printTable(tableToPrint);
-function getDesc(responce){
-    let desc = "";
-    for(let i = 0; i < responce.length; i++){
-        desc = responce[i].weather[0].description;
-        hourlyDataObject.descr = desc;
-    } return hourlyDataObject.descr;
-}
-console.log(hourlyDataObject);
+// printTable(tableToPrint)
 
-function printTable(elementToPrintIn, responce){
-    elementToPrintIn.innerText = "";
-    for(let i = 0; i < responce.length; i++){
-        elementToPrintIn.innerText += `
-        <table>
-        <tr>${weatherDataObject.description1.responce[i]}</tr>
-        </table>
-        `
-    }
+
+function printTable(elementToPrintIn, responces){
+    console.log("print table res", responces);
+    console.log("print table res list", responces.list);
+    let newArray = responces.list;
+    elementToPrintIn.innerHTML = "<h2>Hourly data</h2>";
+    let table = document.createElement("table");
+    let tableRow1 = document.createElement("tr");
+    let td1 = document.createElement("td");
+    let td2 = document.createElement("td");
+    let td3 = document.createElement("td");
+    let td4 = document.createElement("td");
+    let td5 = document.createElement("td");
+    let td6 = document.createElement("td");
+    td1.innerHTML = "Icon";
+    td2.innerHTML = "Description";
+    td3.innerHTML = "Date";
+    td4.innerHTML = "Temperature";
+    td5.innerHTML = "Humidity";
+    td6.innerHTML = "Wind";
+    tableRow1.append(td1, td2, td3, td4, td5, td6);
+    table.append(tableRow1);
+    newArray.forEach((resp) => {
+        let tableRow = document.createElement("tr");
+        let tableData = document.createElement("td");
+        let tableData1 = document.createElement("td");
+        let tableData2 = document.createElement("td");
+        let tableData3 = document.createElement("td");
+        let tableData4 = document.createElement("td");
+        let tableData5 = document.createElement("td");
+        tableData.innerHTML = `<img src = "http://openweathermap.org/img/w/${resp.weather[0].icon}.png"></img>`
+        tableData1.innerHTML = `${resp.weather[0].description}`;
+        tableData2.innerHTML = `${resp.dt_txt}`;
+        tableData3.innerHTML = `${resp.main.temp}`;
+        tableData4.innerHTML = `${resp.main.humidity}`;
+        tableData5.innerHTML = `${resp.wind.speed}`;
+        tableRow.append(tableData, tableData1, tableData2, tableData3, tableData4, tableData5);
+        table.append(tableRow);
+    })
+    elementToPrintIn.append(table);
 }
+
+homeBtn.addEventListener("click", () => {
+    weatherForecast()
+    myDiv.style.display = "flex";
+    myDiv.style.justifyContent = "center";
+    myDiv.style.alignItems = "center";
+    tableToPrint.style.display = "none";
+})
+
+hourlyBtn.addEventListener("click", () => {
+    weatherForecast()
+    myDiv.style.display = "none";
+    tableToPrint.style.display = "flex";
+    tableToPrint.style.justifyContent = "center";
+    tableToPrint.style.alignItems = "center";
+})
+
 
 
 
