@@ -30,7 +30,7 @@
 let API_URL = "https://restcountries.com/v3.1/alpha/codes=mkd";
 let API_URL1 = "https://restcountries.com/v3.1/alpha/codes=aut";
 
-let getBorderCountries = (apiUrl) => {
+let searchedCountry = (apiUrl) => {
     fetch(apiUrl)
       .then((response) => {
         console.log(response)
@@ -38,11 +38,26 @@ let getBorderCountries = (apiUrl) => {
         return returnedResponse;
       })
       .then((parsedResult) => {
-        console.log(parsedResult);
-        let country = parsedResult[0].name.common;
+        console.log("Country requested printed as an object", parsedResult);
+        // let country = parsedResult[0].name.common;
         let countryBorders = parsedResult[0].borders;
-        console.log("Country: ", country);
+        // console.log("Country: ", country);
         console.log("Neighbours", countryBorders);
+        countryBorders.forEach((countryCode) => {
+          let newApi =`https://restcountries.com/v3.1/alpha/${countryCode}`
+          fetch(newApi)
+             .then((resp) => {
+              console.log(resp);
+              let newResp = resp.json();
+              return newResp;
+             })
+             .then((parsedResp) => {
+              console.log("Neigbours as objects: ", parsedResp);
+             })
+             .catch((error) => {
+              console.log("Error happened: ", error)
+            })
+        })
       }) 
       .catch((error) => {
         console.log("Error happened: ", error)
@@ -52,5 +67,4 @@ let getBorderCountries = (apiUrl) => {
       })
 }
 
-getBorderCountries(API_URL)
-getBorderCountries(API_URL1)
+searchedCountry(API_URL)
